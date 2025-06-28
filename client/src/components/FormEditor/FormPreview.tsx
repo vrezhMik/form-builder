@@ -8,7 +8,9 @@ import {
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { FieldType, createFormField } from "../../form-builder/FormField";
+import type { FieldType } from "@shared/inrerfaces";
+
+import { createFormField } from "../../form-builder/FormField";
 import { addField, reorderFields } from "../../store/formBuilderSlice";
 import { groupFieldsIntoRows } from "../../utils/groupFieldsIntoRows";
 import { useState } from "react";
@@ -81,7 +83,7 @@ function FormPreview() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      setIsSubmitted(true); // ✅ Mark successful submission
+      setIsSubmitted(true);
     }
   };
 

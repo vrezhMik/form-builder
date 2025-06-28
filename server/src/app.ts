@@ -2,6 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import formRoutes from "./routes/forms";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 30,
+});
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -9,7 +16,14 @@ const MONGO_URI =
   process.env.MONGO_URI ||
   "mongodb://admin:admin@mongo:27017/?authSource=admin";
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+app.use(helmet());
+app.use(limiter);
 app.use(express.json());
 app.use("/forms", formRoutes);
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { FormField } from "../../form-builder/FormField";
+import type { FormField } from "@shared/inrerfaces";
+
 import { useDispatch } from "react-redux";
 import { setCurrentTab } from "../../store/sidebarSlice";
 import { setSelectedFieldId, removeField } from "../../store/formBuilderSlice";

@@ -1,18 +1,17 @@
 import { Router, Request, Response } from "express";
 import Form from "../models/Form";
+import { sanitizeFormInput } from "../utils/sanitizers";
 
 const router = Router();
-
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { name, fields } = req.body;
+    const { name, fields } = sanitizeFormInput(req.body.name, req.body.fields);
     const form = await Form.create({ name, fields });
     res.status(201).json(form);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
   }
 });
-
 router.get("/", async (req: Request, res: Response) => {
   try {
     const forms = await Form.find().sort({ createdAt: -1 });
@@ -34,7 +33,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 router.put("/:id", async (req: Request, res: Response) => {
   try {
-    const { name, fields } = req.body;
+    const { name, fields } = sanitizeFormInput(req.body.name, req.body.fields);
     const updated = await Form.findByIdAndUpdate(
       req.params.id,
       { name, fields },
