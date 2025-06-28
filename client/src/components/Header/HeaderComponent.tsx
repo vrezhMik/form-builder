@@ -1,8 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 export default function HeaderComponent() {
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/formBuilder"); // or any route you want
+  }
   return (
-    <header>
-      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        Click Me
+    <header className="py-10 px-20 border-b bg-white">
+      <button
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        onClick={handleClick}
+      >
+        Add new form +
       </button>
     </header>
   );
