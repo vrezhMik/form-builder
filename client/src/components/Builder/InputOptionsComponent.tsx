@@ -36,7 +36,6 @@ function InputOptionsComponent() {
 
   return (
     <div className="space-y-6">
-      {/* Label */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Label:
@@ -51,7 +50,6 @@ function InputOptionsComponent() {
         />
       </div>
 
-      {/* Placeholder */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Placeholder:
@@ -68,7 +66,6 @@ function InputOptionsComponent() {
         />
       </div>
 
-      {/* Required */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Required:
@@ -88,7 +85,6 @@ function InputOptionsComponent() {
         </button>
       </div>
 
-      {/* Row Width */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Row Width:
@@ -108,7 +104,6 @@ function InputOptionsComponent() {
         </select>
       </div>
 
-      {/* Checkbox specific settings */}
       {field.type === "checkbox" && (
         <>
           <div>
@@ -147,7 +142,6 @@ function InputOptionsComponent() {
         </>
       )}
 
-      {/* Select specific settings */}
       {field.type === "select" && (
         <>
           <div>
