@@ -5,11 +5,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  rectSortingStrategy,
-} from "@dnd-kit/sortable";
+import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { FieldType, createFormField } from "../../form-builder/FormField";

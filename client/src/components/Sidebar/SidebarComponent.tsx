@@ -12,9 +12,9 @@ function SidebarComponent() {
     <div className="w-3/12 bg-blue-100 h-screen">
       <SidebarMenuComponent />
       <div className="p-10">
-        {currentTab == 0 && <FieldsComponent />}
-        {currentTab == 1 && <InputOptionsComponent />}
-        {currentTab == 2 && <FormSettingsComponent />}
+        {currentTab === 0 && <FieldsComponent />}
+        {currentTab === 1 && <InputOptionsComponent />}
+        {currentTab === 2 && <FormSettingsComponent />}
       </div>
     </div>
   );
