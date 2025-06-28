@@ -25,15 +25,18 @@ const CheckboxGroup = ({
   return (
     <div
       className={
-        layout === "row" ? "flex gap-4 items-center" : "block space-y-1"
+        layout === "row"
+          ? "flex flex-wrap gap-x-4 gap-y-2 items-center"
+          : "flex flex-col gap-2"
       }
     >
       {options.map((opt, i) => (
-        <label key={i} className="flex items-center gap-2 align-center">
+        <label key={i} className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
             checked={value.includes(opt)}
             onChange={(e) => handleToggle(opt, e.target.checked)}
+            className="accent-blue-600"
           />
           <span>{opt}</span>
         </label>

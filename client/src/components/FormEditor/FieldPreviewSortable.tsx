@@ -70,19 +70,21 @@ const FieldPreviewSortable: React.FC<Props> = ({
     <div
       ref={setNodeRef}
       style={style}
-      className="border p-3 rounded bg-gray-50 flex items-start gap-2"
+      className="border p-3 rounded bg-gray-50 flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onClickCapture={handleClickCapture}
       {...attributes}
     >
+      {/* Drag handle */}
       <div
-        className="drag-handle cursor-move select-none text-gray-400"
+        className="drag-handle cursor-move select-none text-gray-400 sm:pt-2"
         {...listeners}
       >
         ⠿
       </div>
 
+      {/* Main content */}
       <div className="flex-1">
         <label className="block mb-1 font-medium">
           {field.label}
@@ -142,8 +144,9 @@ const FieldPreviewSortable: React.FC<Props> = ({
         {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
 
+      {/* Delete button */}
       <div
-        className="text-red-500 cursor-pointer select-none ml-2"
+        className="text-red-500 cursor-pointer select-none sm:pt-2"
         onClick={() => dispatch(removeField(field.id))}
       >
         x

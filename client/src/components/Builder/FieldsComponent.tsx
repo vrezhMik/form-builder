@@ -14,13 +14,13 @@ export default function FieldsComponent() {
   };
 
   return (
-    <div className=" flex flex-wrap gap-x-5 gap-y-5">
+    <div className="flex flex-wrap gap-4">
       {inputs.map((input, index) => (
         <div
           key={index}
           draggable
           onDragStart={(e) => handleDragStart(e, input.label)}
-          className="w-5/12 text-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-move"
+          className="w-full lg:w-[48%] text-center bg-blue-500 text-white px-4 py-3 rounded hover:bg-blue-600 cursor-move break-words text-base"
         >
           {input.label}
         </div>

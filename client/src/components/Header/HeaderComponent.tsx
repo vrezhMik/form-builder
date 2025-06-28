@@ -9,9 +9,9 @@ export default function HeaderComponent() {
     navigate("/formBuilder");
   }
   return (
-    <header className="py-10 px-20 border-b bg-white">
+    <header className="px-4 sm:px-6 md:px-10 lg:px-20 py-6 sm:py-8 md:py-10 border-b bg-white">
       <button
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
         onClick={handleClick}
       >
         Add new form +

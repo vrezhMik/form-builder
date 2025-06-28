@@ -61,8 +61,8 @@ function FormEditor() {
   };
 
   return (
-    <div className="py-10 px-20 w-full border rounded">
-      <div className="flex justify-end mb-10">
+    <div className="w-full border rounded px-4 py-6 sm:px-8 md:px-12 lg:px-20 lg:py-10">
+      <div className="flex justify-end mb-6 sm:mb-8 lg:mb-10">
         <button
           className={`px-4 py-2 rounded text-white transition-colors duration-300 ${
             saveStatus === "success"

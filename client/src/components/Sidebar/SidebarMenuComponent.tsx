@@ -18,13 +18,12 @@ function SidebarMenuComponent() {
 
   return (
     <div className="w-full">
-      <div>
+      <div className="flex flex-wrap">
         {menu_inputs.map((input, index) => (
           <button
             key={index}
-            className={`h-20 w-4/12 ${
-              index === currentTab ? "bg-blue-100" : "bg-blue-50"
-            }`}
+            className={`h-20 flex-1 min-w-[50%] sm:min-w-[33.33%] md:min-w-[25%] border
+          ${index === currentTab ? "bg-blue-100" : "bg-blue-50"}`}
             onClick={() => handleTabClick(index)}
           >
             {input.label}

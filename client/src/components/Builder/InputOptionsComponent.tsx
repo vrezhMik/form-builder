@@ -35,12 +35,15 @@ function InputOptionsComponent() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {/* Label */}
       <div>
-        <label className="block text-sm font-medium">Label:</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Label:
+        </label>
         <input
           type="text"
-          className="w-full border rounded px-2 py-1"
+          className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={field.label}
           onChange={(e) =>
             updateFieldProp(dispatch, field.id, { label: e.target.value })
@@ -48,8 +51,11 @@ function InputOptionsComponent() {
         />
       </div>
 
+      {/* Placeholder */}
       <div>
-        <label className="block text-sm font-medium">Placeholder:</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Placeholder:
+        </label>
         <input
           type="text"
           value={field.settings.placeholder || ""}
@@ -58,17 +64,21 @@ function InputOptionsComponent() {
               placeholder: e.target.value,
             })
           }
-          className="w-full border rounded px-2 py-1"
+          className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
+      {/* Required */}
       <div>
-        <label className="block text-sm font-medium mb-1">Required:</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Required:
+        </label>
         <button
+          type="button"
           onClick={() =>
             updateFieldProp(dispatch, field.id, { required: !field.required })
           }
-          className={`px-3 py-1 rounded text-white ${
+          className={`px-4 py-2 rounded text-white transition-colors duration-200 ${
             field.required
               ? "bg-red-600 hover:bg-red-700"
               : "bg-green-600 hover:bg-green-700"
@@ -78,8 +88,11 @@ function InputOptionsComponent() {
         </button>
       </div>
 
+      {/* Row Width */}
       <div>
-        <label className="block text-sm font-medium mb-1">Row Width:</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Row Width:
+        </label>
         <select
           value={field.settings.width || "100"}
           onChange={(e) =>
@@ -87,7 +100,7 @@ function InputOptionsComponent() {
               width: parseInt(e.target.value),
             })
           }
-          className="w-full border rounded px-2 py-1"
+          className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="30">30%</option>
           <option value="49">50%</option>
@@ -95,10 +108,11 @@ function InputOptionsComponent() {
         </select>
       </div>
 
+      {/* Checkbox specific settings */}
       {field.type === "checkbox" && (
         <>
           <div>
-            <label className="block text-sm font-medium">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Checkbox Options:
             </label>
             <OptionEditor
@@ -112,10 +126,11 @@ function InputOptionsComponent() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Checkbox Template:
             </label>
             <button
+              type="button"
               onClick={() =>
                 updateFieldSettings(dispatch, field.id, field.settings, {
                   checkboxTemplate:
@@ -124,7 +139,7 @@ function InputOptionsComponent() {
                       : "row",
                 })
               }
-              className="px-3 py-1 rounded text-white bg-green-600 hover:bg-green-700"
+              className="px-4 py-2 rounded text-white bg-green-600 hover:bg-green-700"
             >
               {field.settings.checkboxTemplate === "row" ? "Column" : "Row"}
             </button>
@@ -132,10 +147,11 @@ function InputOptionsComponent() {
         </>
       )}
 
+      {/* Select specific settings */}
       {field.type === "select" && (
         <>
           <div>
-            <label className="block text-sm font-medium">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Default Option Text:
             </label>
             <input
@@ -146,12 +162,14 @@ function InputOptionsComponent() {
                   defaultOption: e.target.value,
                 })
               }
-              className="w-full border rounded px-2 py-1"
+              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Options:</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Options:
+            </label>
             <OptionEditor
               options={options}
               newOption={newOption}

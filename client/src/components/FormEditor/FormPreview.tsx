@@ -88,13 +88,13 @@ function FormPreview() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="w-full">
       <div
-        className="w-full h-full min-h-[300px] border rounded p-4"
+        className="w-full min-h-[300px] border rounded p-4 sm:p-6 lg:p-8 bg-white"
         onDrop={handleDropFromSidebar}
         onDragOver={handleDragOver}
       >
-        <h2 className="text-lg font-semibold mb-2">
+        <h2 className="text-lg font-semibold mb-4">
           Form Preview: {displayName}
         </h2>
 
@@ -111,10 +111,7 @@ function FormPreview() {
               strategy={rectSortingStrategy}
             >
               {rows.map((row, rowIndex) => (
-                <div
-                  key={rowIndex}
-                  className="flex flex-wrap gap-2 mb-2 justify-between"
-                >
+                <div key={rowIndex} className="flex flex-wrap gap-4 mb-4">
                   {row.map((field) => (
                     <FieldPreviewSortable
                       key={field.id}
@@ -133,16 +130,19 @@ function FormPreview() {
           </DndContext>
         )}
       </div>
-      <button
-        type="submit"
-        className={`px-4 py-2 rounded mt-4 text-white transition-colors duration-300 ${
-          isSubmitted
-            ? "bg-green-600 hover:bg-green-700"
-            : "bg-blue-600 hover:bg-blue-700"
-        }`}
-      >
-        {isSubmitted ? "Submitted" : "Submit"}
-      </button>
+
+      <div className="mt-4">
+        <button
+          type="submit"
+          className={`w-full sm:w-auto px-6 py-3 rounded text-white transition-colors duration-300 ${
+            isSubmitted
+              ? "bg-green-600 hover:bg-green-700"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
+          {isSubmitted ? "Submitted" : "Submit"}
+        </button>
+      </div>
     </form>
   );
 }
