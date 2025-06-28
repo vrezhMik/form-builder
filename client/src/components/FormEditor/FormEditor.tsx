@@ -1,21 +1,31 @@
 import { useSelector } from "react-redux";
 import FormPreview from "./FormPreview";
 import { RootState } from "../../store";
+import { useSearchParams } from "react-router-dom";
 
 function FormEditor() {
   const form = useSelector((state: RootState) => state.formBuilder);
-  const formId = useSelector(
+  const formIdCounter = useSelector(
     (state: RootState) => state.formBuilder.formIdCounter
   );
+  const [searchParams] = useSearchParams();
+  const formIdFromUrl = searchParams.get("id");
+
   const saveForm = async () => {
     const formName =
       form.formName.trim().length === 0
-        ? `Custom Form #${formId}`
+        ? `Custom Form #${formIdCounter}`
         : form.formName;
 
+    const isEditing = Boolean(formIdFromUrl);
+    const method = isEditing ? "PUT" : "POST";
+    const url = isEditing
+      ? `http://localhost:5001/forms/${formIdFromUrl}`
+      : `http://localhost:5001/forms`;
+
     try {
-      const response = await fetch("http://localhost:5001/forms", {
-        method: "POST",
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -26,11 +36,15 @@ function FormEditor() {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to save form: ${response.status}`);
+        throw new Error(
+          `Failed to ${isEditing ? "update" : "create"} form: ${
+            response.status
+          }`
+        );
       }
 
       const data = await response.json();
-      console.log("✅ Form saved:", data);
+      console.log(`✅ Form ${isEditing ? "updated" : "saved"}:`, data);
     } catch (error) {
       console.error("❌ Error saving form:", error);
     }
