@@ -45,43 +45,55 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
     wasDragging.current = true;
   };
 
-  const handleClickCapture = () => {
-    requestAnimationFrame(() => {
-      if (!wasDragging.current) {
-        dispatch(setSelectedFieldId(field.id));
-        dispatch(setCurrentTab(1));
-      }
-    });
+  const handleClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Don't open settings if user clicked on the drag handle
+    const target = e.target as HTMLElement;
+    if (target.closest(".drag-handle")) return;
+
+    if (!wasDragging.current) {
+      dispatch(setSelectedFieldId(field.id));
+      dispatch(setCurrentTab(1));
+    }
   };
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="border p-3 rounded bg-gray-50 cursor-move"
+      className="border p-3 rounded bg-gray-50 flex items-start gap-2"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
-      onPointerUp={handleClickCapture}
+      onClickCapture={handleClickCapture}
       {...attributes}
-      {...listeners}
     >
-      <label>{field.label}</label>
-      {field.type === "text" && (
-        <input
-          type="text"
-          className="w-full"
-          placeholder={field.settings.placeholder}
-        />
-      )}
-      {field.type === "number" && (
-        <input
-          type="number"
-          className="w-full"
-          placeholder={field.settings.placeholder}
-        />
-      )}
-      {field.type === "checkbox" && <input type="checkbox" />}
-      {field.type === "select" && <select className="w-full" />}
+      <div
+        className="drag-handle cursor-move select-none text-gray-400"
+        {...listeners}
+      >
+        ⠿
+      </div>
+
+      {/* Field content */}
+      <div className="flex-1">
+        <label>{field.label}</label>
+
+        {field.type === "text" && (
+          <input
+            type="text"
+            className="w-full"
+            placeholder={field.settings.placeholder}
+          />
+        )}
+        {field.type === "number" && (
+          <input
+            type="number"
+            className="w-full"
+            placeholder={field.settings.placeholder}
+          />
+        )}
+        {field.type === "checkbox" && <input type="checkbox" />}
+        {field.type === "select" && <select className="w-full" />}
+      </div>
     </div>
   );
 };
