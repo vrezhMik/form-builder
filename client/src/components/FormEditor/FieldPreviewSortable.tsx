@@ -74,7 +74,10 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
 
       {/* Field content */}
       <div className="flex-1">
-        <label>{field.label}</label>
+        <label>
+          {field.label}{" "}
+          {field.required && <span className="text-red-500">*</span>}
+        </label>
 
         {field.type === "text" && (
           <input
@@ -109,7 +112,21 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
           </div>
         )}
         {field.type === "select" && (
-          <select className="w-full" required={field.required} />
+          <select
+            className="w-full border rounded px-2 py-1"
+            required={field.required}
+          >
+            {field.settings.defaultOption && (
+              <option value="">{field.settings.defaultOption}</option>
+            )}
+            {(field.settings.options || []).map(
+              (opt: string, index: number) => (
+                <option key={index} value={opt}>
+                  {opt}
+                </option>
+              )
+            )}
+          </select>
         )}
       </div>
     </div>
