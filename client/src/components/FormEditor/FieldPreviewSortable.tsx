@@ -8,9 +8,17 @@ import { CSS } from "@dnd-kit/utilities";
 
 interface Props {
   field: FormField;
+  error: string;
+  value: any;
+  onChange: (value: any) => void;
 }
 
-const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
+const FieldPreviewSortable: React.FC<Props> = ({
+  field,
+  error,
+  value,
+  onChange,
+}) => {
   const dispatch = useDispatch();
   const wasDragging = useRef(false);
 
@@ -55,6 +63,8 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
     }
   };
 
+  const errorClass = error ? "border-red-500" : "border-gray-300";
+
   return (
     <div
       ref={setNodeRef}
@@ -73,27 +83,31 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
       </div>
 
       <div className="flex-1">
-        <label>
-          {field.label}{" "}
-          {field.required && <span className="text-red-500">*</span>}
+        <label className="block mb-1 font-medium">
+          {field.label}
+          {field.required && <span className="text-red-500 ml-1">*</span>}
         </label>
 
         {field.type === "text" && (
           <input
             type="text"
-            required={field.required}
-            className="w-full py-1 px-2"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className={`w-full py-1 px-2 border rounded ${errorClass}`}
             placeholder={field.settings.placeholder}
           />
         )}
+
         {field.type === "number" && (
           <input
             type="number"
-            required={field.required}
-            className="w-full"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className={`w-full py-1 px-2 border rounded ${errorClass}`}
             placeholder={field.settings.placeholder}
           />
         )}
+
         {field.type === "checkbox" && (
           <div
             className={`${
@@ -104,16 +118,31 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
           >
             {(field.settings.options || []).map((opt: string, i: number) => (
               <label key={i} className="flex items-center gap-2 align-center">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={Array.isArray(value) && value.includes(opt)}
+                  onChange={(e) => {
+                    const newValue = Array.isArray(value) ? [...value] : [];
+                    if (e.target.checked) {
+                      if (!newValue.includes(opt)) newValue.push(opt);
+                    } else {
+                      const index = newValue.indexOf(opt);
+                      if (index !== -1) newValue.splice(index, 1);
+                    }
+                    onChange(newValue);
+                  }}
+                />
                 <span>{opt}</span>
               </label>
             ))}
           </div>
         )}
+
         {field.type === "select" && (
           <select
-            className="w-full border rounded px-2 py-1"
-            required={field.required}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className={`w-full border rounded px-2 py-1 ${errorClass}`}
           >
             {field.settings.defaultOption && (
               <option value="">{field.settings.defaultOption}</option>
@@ -127,9 +156,12 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
             )}
           </select>
         )}
+
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
+
       <div
-        className="text-red-500 cursor-pointer select-none"
+        className="text-red-500 cursor-pointer select-none ml-2"
         onClick={() => dispatch(removeField(field.id))}
       >
         x

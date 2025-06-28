@@ -11,15 +11,19 @@ import { RootState } from "../../store";
 import { FieldType, createFormField } from "../../form-builder/FormField";
 import { addField, reorderFields } from "../../store/formBuilderSlice";
 import { groupFieldsIntoRows } from "../../utils/groupFieldsIntoRows";
-
+import { useState } from "react";
 import FieldPreviewSortable from "./FieldPreviewSortable";
 
 function FormPreview() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const fields = useSelector((state: RootState) => state.formBuilder.fields);
   const rows = groupFieldsIntoRows(fields);
   const formName = useSelector(
     (state: RootState) => state.formBuilder.formName
   );
+  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
   const formId = useSelector(
     (state: RootState) => state.formBuilder.formIdCounter
   );
@@ -41,6 +45,15 @@ function FormPreview() {
     e.preventDefault();
   };
 
+  const handleChange = (fieldId: string, value: any) => {
+    setFormData((prev) => ({ ...prev, [fieldId]: value }));
+    setErrors((prev) => ({ ...prev, [fieldId]: "" }));
+
+    if (isSubmitted) {
+      setIsSubmitted(false);
+    }
+  };
+
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!active || !over || active.id === over.id) return;
@@ -52,9 +65,32 @@ function FormPreview() {
       dispatch(reorderFields({ oldIndex, newIndex }));
     }
   };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+
+    for (const field of fields) {
+      const value = formData[field.id];
+      const isEmpty =
+        value === undefined ||
+        value === null ||
+        value === "" ||
+        (field.type === "checkbox" && value === false);
+
+      if (field.required && isEmpty) {
+        newErrors[field.id] = "This field is required";
+      }
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      setIsSubmitted(true); // ✅ Mark successful submission
+    }
+  };
 
   return (
-    <form action="">
+    <form onSubmit={handleSubmit}>
       <div
         className="w-full h-full min-h-[300px] border rounded p-4"
         onDrop={handleDropFromSidebar}
@@ -82,7 +118,16 @@ function FormPreview() {
                   className="flex flex-wrap gap-2 mb-2 justify-between"
                 >
                   {row.map((field) => (
-                    <FieldPreviewSortable key={field.id} field={field} />
+                    <FieldPreviewSortable
+                      key={field.id}
+                      field={field}
+                      value={
+                        formData[field.id] ||
+                        (field.type === "checkbox" ? [] : "")
+                      }
+                      onChange={(value) => handleChange(field.id, value)}
+                      error={errors[field.id]}
+                    />
                   ))}
                 </div>
               ))}
@@ -90,6 +135,16 @@ function FormPreview() {
           </DndContext>
         )}
       </div>
+      <button
+        type="submit"
+        className={`px-4 py-2 rounded mt-4 text-white transition-colors duration-300 ${
+          isSubmitted
+            ? "bg-green-600 hover:bg-green-700"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
+      >
+        {isSubmitted ? "Submitted" : "Submit"}
+      </button>
     </form>
   );
 }
