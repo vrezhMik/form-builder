@@ -25,9 +25,10 @@ function FormEditor() {
 
     const isEditing = Boolean(formIdFromUrl);
     const method = isEditing ? "PUT" : "POST";
+
     const url = isEditing
-      ? `http://localhost:5001/forms/${formIdFromUrl}`
-      : `http://localhost:5001/forms`;
+      ? `${process.env.REACT_APP_API_URL}/forms/${formIdFromUrl}`
+      : `${process.env.REACT_APP_API_URL}/forms`;
 
     try {
       const response = await fetch(url, {

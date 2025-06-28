@@ -4,6 +4,8 @@ import cors from "cors";
 import formRoutes from "./routes/forms";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import dotenv from "dotenv";
+dotenv.config();
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -11,14 +13,12 @@ const limiter = rateLimit({
 });
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-const MONGO_URI =
-  process.env.MONGO_URI ||
-  "mongodb://admin:admin@mongo:27017/?authSource=admin";
-
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI || "";
+console.log(MONGO_URI);
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );

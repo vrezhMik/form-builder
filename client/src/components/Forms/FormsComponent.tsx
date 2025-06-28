@@ -17,9 +17,12 @@ function FormsComponent() {
 
   const removeForm = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/forms/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/forms/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!response.ok) {
         throw new Error(`Failed to remove: ${response.status}`);
       }
@@ -41,7 +44,7 @@ function FormsComponent() {
 
     const getForms = async () => {
       try {
-        const response = await fetch("http://localhost:5001/forms", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/forms`, {
           method: "GET",
         });
         if (!response.ok) {

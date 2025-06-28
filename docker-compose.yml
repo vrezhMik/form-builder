@@ -12,20 +12,24 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin
 
   server:
-    build: ./server
+    build:
+      context: .
+      dockerfile: server/Dockerfile
     container_name: formbuilder-backend
     ports:
-      - "5001:5000"
+      - "5001:5001"
     depends_on:
       - mongo
     environment:
       - MONGO_URI=mongodb://admin:admin@mongo:27017/?authSource=admin
-      - PORT=5000
+      - PORT=5001
 
   client:
-    build: ./client
+    build:
+      context: .
+      dockerfile: client/Dockerfile
     container_name: formbuilder-frontend
     ports:
-      - "3000:3000"
+      - "3000:80" # React build served via NGINX (internal port 80)
     depends_on:
       - server

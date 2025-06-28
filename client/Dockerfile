@@ -1,12 +1,29 @@
-FROM node:20
+# client/Dockerfile
+
+# ========== Build Stage ==========
+FROM node:20 as builder
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copy dependencies
+COPY client/package*.json ./
 RUN npm install
 
-COPY . .
+# Copy client source
+COPY client/ ./client
+COPY shared/ ./shared    
 
-EXPOSE 3000
+# Build production React app
+WORKDIR /app/client
+RUN npm run build
 
-CMD ["npm", "start"]
+
+# ========== Serve Stage ==========
+FROM nginx:alpine
+COPY --from=builder /app/client/build /usr/share/nginx/html
+
+# Optional: custom NGINX config
+# COPY client/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
