@@ -5,6 +5,7 @@ export interface FormFieldSettings {
   forceNewRow?: boolean;
   options?: string[];
   defaultOption?: string;
+  checkboxTemplate?: "row" | "column";
 }
 export interface FormField {
   id: string;

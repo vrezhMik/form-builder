@@ -46,7 +46,6 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
   };
 
   const handleClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Don't open settings if user clicked on the drag handle
     const target = e.target as HTMLElement;
     if (target.closest(".drag-handle")) return;
 
@@ -80,19 +79,38 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
         {field.type === "text" && (
           <input
             type="text"
-            className="w-full"
+            required={field.required}
+            className="w-full py-1 px-2"
             placeholder={field.settings.placeholder}
           />
         )}
         {field.type === "number" && (
           <input
             type="number"
+            required={field.required}
             className="w-full"
             placeholder={field.settings.placeholder}
           />
         )}
-        {field.type === "checkbox" && <input type="checkbox" />}
-        {field.type === "select" && <select className="w-full" />}
+        {field.type === "checkbox" && (
+          <div
+            className={`${
+              field.settings.checkboxTemplate === "row"
+                ? "flex gap-4 items-center"
+                : "block space-y-1"
+            }`}
+          >
+            {(field.settings.options || []).map((opt: string, i: number) => (
+              <label key={i} className="flex items-center gap-2 align-center">
+                <input type="checkbox" />
+                <span>{opt}</span>
+              </label>
+            ))}
+          </div>
+        )}
+        {field.type === "select" && (
+          <select className="w-full" required={field.required} />
+        )}
       </div>
     </div>
   );

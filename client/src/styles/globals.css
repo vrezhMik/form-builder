@@ -11,3 +11,6 @@
 input {
   outline: none;
 }
+input[type="checkbox"] {
+  vertical-align: middle;
+}

@@ -127,10 +127,77 @@ function InputOptionsComponent() {
           className="w-full border rounded px-2 py-1"
         >
           <option value="30">30%</option>
-          <option value="50">50%</option>
+          <option value="49">50%</option>
           <option value="100">100%</option>
         </select>
       </div>
+      {field.type === "checkbox" && (
+        <>
+          <div>
+            <label className="block text-sm font-medium">
+              Checkbox Options:
+            </label>
+            <ul className="space-y-1 mb-2">
+              {options.map((opt: string, index: number) => (
+                <li key={index} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <input type="checkbox" disabled />
+                    <span>{opt}</span>
+                  </div>
+                  <button
+                    onClick={() => removeOption(index)}
+                    className="text-red-600 text-sm"
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newOption}
+                onChange={(e) => setNewOption(e.target.value)}
+                placeholder="New option label"
+                className="flex-1 border rounded px-2 py-1"
+              />
+              <button
+                onClick={addOption}
+                className="px-3 py-1 bg-blue-600 text-white rounded"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              Checkbox Template:
+            </label>
+            <button
+              onClick={() =>
+                dispatch(
+                  updateField({
+                    id: field.id,
+                    updates: {
+                      settings: {
+                        ...field.settings,
+                        checkboxTemplate:
+                          field.settings.checkboxTemplate === "row"
+                            ? "column"
+                            : "row",
+                      },
+                    },
+                  })
+                )
+              }
+              className="px-3 py-1 rounded text-white bg-green-600 hover:bg-green-700"
+            >
+              {field.settings.checkboxTemplate === "row" ? "Column" : "Row"}
+            </button>
+          </div>
+        </>
+      )}
 
       {field.type === "select" && (
         <>

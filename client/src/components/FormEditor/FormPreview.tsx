@@ -56,36 +56,41 @@ function FormPreview() {
   };
 
   return (
-    <div
-      className="w-full h-full min-h-[300px] border rounded p-4"
-      onDrop={handleDropFromSidebar}
-      onDragOver={handleDragOver}
-    >
-      <h2 className="text-lg font-semibold mb-2">Form Preview</h2>
+    <form action="">
+      <div
+        className="w-full h-full min-h-[300px] border rounded p-4"
+        onDrop={handleDropFromSidebar}
+        onDragOver={handleDragOver}
+      >
+        <h2 className="text-lg font-semibold mb-2">Form Preview</h2>
 
-      {rows.length === 0 ? (
-        <p className="text-gray-400">Drag fields here</p>
-      ) : (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={fields.map((f) => f.id)}
-            strategy={rectSortingStrategy}
+        {rows.length === 0 ? (
+          <p className="text-gray-400">Drag fields here</p>
+        ) : (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            {rows.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex flex-wrap gap-2 mb-2">
-                {row.map((field) => (
-                  <FieldPreviewSortable key={field.id} field={field} />
-                ))}
-              </div>
-            ))}
-          </SortableContext>
-        </DndContext>
-      )}
-    </div>
+            <SortableContext
+              items={fields.map((f) => f.id)}
+              strategy={rectSortingStrategy}
+            >
+              {rows.map((row, rowIndex) => (
+                <div
+                  key={rowIndex}
+                  className="flex flex-wrap gap-2 mb-2 justify-between"
+                >
+                  {row.map((field) => (
+                    <FieldPreviewSortable key={field.id} field={field} />
+                  ))}
+                </div>
+              ))}
+            </SortableContext>
+          </DndContext>
+        )}
+      </div>
+    </form>
   );
 }
 
