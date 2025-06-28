@@ -59,7 +59,11 @@ const formBuilderSlice = createSlice({
     removeField: (state, action: PayloadAction<string>) => {
       state.fields = state.fields.filter((f) => f.id !== action.payload);
     },
-
+    resetFormBuilder: (state) => {
+      state.formName = "";
+      state.fields = [];
+      state.selectedFieldId = null;
+    },
     setSelectedFieldId: (state, action: PayloadAction<string | null>) => {
       state.selectedFieldId = action.payload;
     },
@@ -73,6 +77,7 @@ export const {
   removeField,
   setSelectedFieldId,
   setFormName,
+  resetFormBuilder,
 } = formBuilderSlice.actions;
 
 export default formBuilderSlice.reducer;

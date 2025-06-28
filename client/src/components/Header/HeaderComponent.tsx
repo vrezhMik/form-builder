@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { resetFormBuilder } from "../../store/formBuilderSlice";
 export default function HeaderComponent() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   function handleClick() {
+    dispatch(resetFormBuilder());
     navigate("/formBuilder");
   }
   return (

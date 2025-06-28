@@ -28,8 +28,7 @@ function FormPreview() {
     (state: RootState) => state.formBuilder.formIdCounter
   );
   const dispatch = useDispatch();
-  const displayName =
-    formName.trim() !== "" ? formName : `Custom Form #${formId}`;
+  const displayName = formName.trim() !== "" ? formName : `Custom Form `;
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDropFromSidebar = (e: React.DragEvent<HTMLDivElement>) => {
