@@ -1,5 +1,5 @@
 import FieldsComponent from "../Builder/FieldsComponent";
-import SidebarMenuComponent from "./SidebarMenu/SidebarMenuComponent";
+import SidebarMenuComponent from "./SidebarMenuComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import InputOptionsComponent from "../Builder/InputOptionsComponent";

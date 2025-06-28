@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { FormField } from "../../../form-builder/FormField";
+import { FormField } from "../../form-builder/FormField";
 import { useDispatch } from "react-redux";
-import { setCurrentTab } from "../../../store/sidebarSlice";
-import { setSelectedFieldId } from "../../../store/formBuilderSlice";
+import { setCurrentTab } from "../../store/sidebarSlice";
+import { setSelectedFieldId } from "../../store/formBuilderSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { FormField } from "../../../form-builder/FormField";
+import { FormField } from "../../form-builder/FormField";
 import { useDispatch } from "react-redux";
-import { setSelectedFieldId } from "../../../store/formBuilderSlice";
-import { setCurrentTab } from "../../../store/sidebarSlice";
+import { setSelectedFieldId } from "../../store/formBuilderSlice";
+import { setCurrentTab } from "../../store/sidebarSlice";
 
 interface Props {
   field: FormField;

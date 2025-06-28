@@ -11,14 +11,14 @@ import {
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../store";
 import {
   FieldType,
   createFormField,
   FormField,
-} from "../../../form-builder/FormField";
-import { addField, reorderFields } from "../../../store/formBuilderSlice";
-import { groupFieldsIntoRows } from "../../../utils/groupFieldsIntoRows";
+} from "../../form-builder/FormField";
+import { addField, reorderFields } from "../../store/formBuilderSlice";
+import { groupFieldsIntoRows } from "../../utils/groupFieldsIntoRows";
 
 import FieldPreviewSortable from "./FieldPreviewSortable";
 

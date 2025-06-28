@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { setCurrentTab } from "../../../store/sidebarSlice";
+import { RootState } from "../../store";
+import { setCurrentTab } from "../../store/sidebarSlice";
 
 function SidebarMenuComponent() {
   const dispatch = useDispatch();
