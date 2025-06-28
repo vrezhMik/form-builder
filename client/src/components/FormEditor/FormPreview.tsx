@@ -23,10 +23,7 @@ function FormPreview() {
   );
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
-  const formId = useSelector(
-    (state: RootState) => state.formBuilder.formIdCounter
-  );
+
   const dispatch = useDispatch();
   const displayName = formName.trim() !== "" ? formName : `Custom Form `;
   const sensors = useSensors(useSensor(PointerSensor));

@@ -6,9 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 function FormEditor() {
   const form = useSelector((state: RootState) => state.formBuilder);
-  const formIdCounter = useSelector(
-    (state: RootState) => state.formBuilder.formIdCounter
-  );
+
   const navigate = useNavigate();
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">(
     "idle"
@@ -20,7 +18,7 @@ function FormEditor() {
     if (saveStatus !== "idle") {
       setSaveStatus("idle");
     }
-  }, [form.formName, form.fields]);
+  }, [form.formName, form.fields, saveStatus]);
   const saveForm = async () => {
     const formName =
       form.formName.trim().length === 0 ? `Custom Form` : form.formName;
