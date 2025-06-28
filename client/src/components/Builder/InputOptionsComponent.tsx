@@ -5,11 +5,12 @@ import { useState } from "react";
 
 function InputOptionsComponent() {
   const dispatch = useDispatch();
-  const fields = useSelector((state: RootState) => state.formBuilder.fields);
+  const allFields = useSelector((state: RootState) => state.formBuilder.fields);
+
   const selectedFieldId = useSelector(
     (state: RootState) => state.formBuilder.selectedFieldId
   );
-  const field = fields.find((f) => f.id === selectedFieldId);
+  const field = allFields.find((f) => f.id === selectedFieldId);
   const [newOption, setNewOption] = useState("");
 
   if (!field) return <p>No input selected</p>;
@@ -53,15 +54,16 @@ function InputOptionsComponent() {
     <div className="space-y-4">
       <div>
         <label className="block text-sm font-medium">Label:</label>
+
         <input
           type="text"
+          className="w-full border rounded px-2 py-1"
           value={field.label}
           onChange={(e) =>
             dispatch(
               updateField({ id: field.id, updates: { label: e.target.value } })
             )
           }
-          className="w-full border rounded px-2 py-1"
         />
       </div>
 
@@ -114,39 +116,20 @@ function InputOptionsComponent() {
               updateField({
                 id: field.id,
                 updates: {
-                  settings: { ...field.settings, width: e.target.value },
-                },
-              })
-            )
-          }
-          className="w-full border rounded px-2 py-1"
-        >
-          <option value="33">33%</option>
-          <option value="50">50%</option>
-          <option value="100">100%</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium">Start Value:</label>
-        <input
-          type="text"
-          value={field.settings.defaultValue || ""}
-          onChange={(e) =>
-            dispatch(
-              updateField({
-                id: field.id,
-                updates: {
                   settings: {
                     ...field.settings,
-                    defaultValue: e.target.value,
+                    width: parseInt(e.target.value),
                   },
                 },
               })
             )
           }
           className="w-full border rounded px-2 py-1"
-        />
+        >
+          <option value="30">30%</option>
+          <option value="50">50%</option>
+          <option value="100">100%</option>
+        </select>
       </div>
 
       {field.type === "select" && (

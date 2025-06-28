@@ -1,26 +1,41 @@
-import React from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { addField, setSelectedFieldId } from "../../../store/formBuilderSlice";
-import { setCurrentTab } from "../../../store/sidebarSlice";
-
 import {
+  FieldType,
   createFormField,
   FormField,
-  FieldType,
-} from "./../../../form-builder/FormField";
+} from "../../../form-builder/FormField";
+import { addField, reorderFields } from "../../../store/formBuilderSlice";
+import { groupFieldsIntoRows } from "../../../utils/groupFieldsIntoRows";
+
+import FieldPreviewSortable from "./FieldPreviewSortable";
 
 function FormPreview() {
   const fields = useSelector((state: RootState) => state.formBuilder.fields);
+  const rows = groupFieldsIntoRows(fields);
+
   const dispatch = useDispatch();
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  const handleDropFromSidebar = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const type = e.dataTransfer.getData("field-type") as FieldType;
-
     if (type) {
       const newField = createFormField(type);
-      dispatch(addField(newField));
+      dispatch(addField({ field: newField }));
     }
   };
 
@@ -28,44 +43,47 @@ function FormPreview() {
     e.preventDefault();
   };
 
-  const handleMenuToogle = () => {
-    dispatch(setCurrentTab(1));
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (!active || !over || active.id === over.id) return;
+
+    const oldIndex = fields.findIndex((f) => f.id === active.id);
+    const newIndex = fields.findIndex((f) => f.id === over.id);
+
+    if (oldIndex !== -1 && newIndex !== -1) {
+      dispatch(reorderFields({ oldIndex, newIndex }));
+    }
   };
-  const selectInput = (id: string) => {
-    setSelectedFieldId(id);
-  };
+
   return (
     <div
       className="w-full h-full min-h-[300px] border rounded p-4"
-      onDrop={handleDrop}
+      onDrop={handleDropFromSidebar}
       onDragOver={handleDragOver}
     >
       <h2 className="text-lg font-semibold mb-2">Form Preview</h2>
-      {fields.length === 0 ? (
+
+      {rows.length === 0 ? (
         <p className="text-gray-400">Drag fields here</p>
       ) : (
-        <div className="flex flex-col gap-2" onClick={handleMenuToogle}>
-          {fields.map((field: FormField) => (
-            <div
-              key={field.id}
-              className="border p-3 rounded bg-gray-50 cursor-pointer"
-              onClick={() => {
-                dispatch(setSelectedFieldId(field.id));
-                dispatch(setCurrentTab(1));
-              }}
-            >
-              <label>{field.label}</label>
-              {field.type === "text" && (
-                <input type="text" className="w-full" />
-              )}
-              {field.type === "number" && (
-                <input type="number" className="w-full" />
-              )}
-              {field.type === "checkbox" && <input type="checkbox" />}
-              {field.type === "select" && <select className="w-full" />}
-            </div>
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={fields.map((f) => f.id)}
+            strategy={rectSortingStrategy}
+          >
+            {rows.map((row, rowIndex) => (
+              <div key={rowIndex} className="flex flex-wrap gap-2 mb-2">
+                {row.map((field) => (
+                  <FieldPreviewSortable key={field.id} field={field} />
+                ))}
+              </div>
+            ))}
+          </SortableContext>
+        </DndContext>
       )}
     </div>
   );
