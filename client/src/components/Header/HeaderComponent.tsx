@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export default function HeaderComponent() {
   const navigate = useNavigate();
   function handleClick() {
-    navigate("/formBuilder"); // or any route you want
+    navigate("/formBuilder");
   }
   return (
     <header className="py-10 px-20 border-b bg-white">

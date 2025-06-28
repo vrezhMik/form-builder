@@ -1,29 +1,27 @@
 import { useState } from "react";
+
 function SidebarMenuComponent() {
   const [currentMenu, setCurrentMenu] = useState<number>(0);
-  const inputs = [
-    { lable: "Add fields" },
-    { lable: "Input Options" },
-    { lable: "Form Settings" },
+  const menu_inputs = [
+    { label: "Add fields" },
+    { label: "Input Options" },
+    { label: "Form Settings" },
   ];
 
   return (
     <div className="w-full">
       <div>
-        {inputs.map((input, index) => {
-          return (
-            <button
-              className={`h-20 w-4/12 bg-blue-${
-                index == currentMenu ? "100" : "50"
-              }`}
-              onClick={() => {
-                setCurrentMenu(index);
-              }}
-            >
-              {input.lable}
-            </button>
-          );
-        })}
+        {menu_inputs.map((input, index) => (
+          <button
+            key={index}
+            className={`h-20 w-4/12 ${
+              index === currentMenu ? "bg-blue-100" : "bg-blue-50"
+            }`}
+            onClick={() => setCurrentMenu(index)}
+          >
+            {input.label}
+          </button>
+        ))}
       </div>
     </div>
   );
