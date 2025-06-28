@@ -3,6 +3,7 @@ import SidebarMenuComponent from "./SidebarMenuComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import InputOptionsComponent from "../Builder/InputOptionsComponent";
+import FormSettingsComponent from "../Builder/FormSettingsComponent";
 function SidebarComponent() {
   const currentTab = useSelector(
     (state: RootState) => state.sidebar.currentTab
@@ -13,6 +14,7 @@ function SidebarComponent() {
       <div className="p-10">
         {currentTab == 0 && <FieldsComponent />}
         {currentTab == 1 && <InputOptionsComponent />}
+        {currentTab == 2 && <FormSettingsComponent />}
       </div>
     </div>
   );

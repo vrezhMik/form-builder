@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { FormField } from "../../form-builder/FormField";
 import { useDispatch } from "react-redux";
 import { setCurrentTab } from "../../store/sidebarSlice";
-import { setSelectedFieldId } from "../../store/formBuilderSlice";
+import { setSelectedFieldId, removeField } from "../../store/formBuilderSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -72,7 +72,6 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
         ⠿
       </div>
 
-      {/* Field content */}
       <div className="flex-1">
         <label>
           {field.label}{" "}
@@ -128,6 +127,12 @@ const FieldPreviewSortable: React.FC<Props> = ({ field }) => {
             )}
           </select>
         )}
+      </div>
+      <div
+        className="text-red-500 cursor-pointer select-none"
+        onClick={() => dispatch(removeField(field.id))}
+      >
+        x
       </div>
     </div>
   );

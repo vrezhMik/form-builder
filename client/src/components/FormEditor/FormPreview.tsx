@@ -12,11 +12,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import {
-  FieldType,
-  createFormField,
-  FormField,
-} from "../../form-builder/FormField";
+import { FieldType, createFormField } from "../../form-builder/FormField";
 import { addField, reorderFields } from "../../store/formBuilderSlice";
 import { groupFieldsIntoRows } from "../../utils/groupFieldsIntoRows";
 
@@ -25,9 +21,15 @@ import FieldPreviewSortable from "./FieldPreviewSortable";
 function FormPreview() {
   const fields = useSelector((state: RootState) => state.formBuilder.fields);
   const rows = groupFieldsIntoRows(fields);
-
+  const formName = useSelector(
+    (state: RootState) => state.formBuilder.formName
+  );
+  const formId = useSelector(
+    (state: RootState) => state.formBuilder.formIdCounter
+  );
   const dispatch = useDispatch();
-
+  const displayName =
+    formName.trim() !== "" ? formName : `Custom Form #${formId}`;
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDropFromSidebar = (e: React.DragEvent<HTMLDivElement>) => {
@@ -62,7 +64,9 @@ function FormPreview() {
         onDrop={handleDropFromSidebar}
         onDragOver={handleDragOver}
       >
-        <h2 className="text-lg font-semibold mb-2">Form Preview</h2>
+        <h2 className="text-lg font-semibold mb-2">
+          Form Preview: {displayName}
+        </h2>
 
         {rows.length === 0 ? (
           <p className="text-gray-400">Drag fields here</p>

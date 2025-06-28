@@ -3,11 +3,15 @@ import { FormField } from "../form-builder/FormField";
 import { arrayMove } from "@dnd-kit/sortable";
 
 interface FormBuilderState {
+  formName: string;
+  formIdCounter: number;
   fields: FormField[];
   selectedFieldId: string | null;
 }
 
 const initialState: FormBuilderState = {
+  formName: "",
+  formIdCounter: 1,
   fields: [],
   selectedFieldId: null,
 };
@@ -39,6 +43,9 @@ const formBuilderSlice = createSlice({
       );
     },
 
+    setFormName: (state, action) => {
+      state.formName = action.payload;
+    },
     updateField: (
       state,
       action: PayloadAction<{ id: string; updates: Partial<FormField> }>
@@ -65,6 +72,7 @@ export const {
   updateField,
   removeField,
   setSelectedFieldId,
+  setFormName,
 } = formBuilderSlice.actions;
 
 export default formBuilderSlice.reducer;
