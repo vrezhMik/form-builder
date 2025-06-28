@@ -1,8 +1,9 @@
-// FormPreview.tsx
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { addField } from "../../../store/formBuilderSlice";
+import { addField, setSelectedFieldId } from "../../../store/formBuilderSlice";
+import { setCurrentTab } from "../../../store/sidebarSlice";
+
 import {
   createFormField,
   FormField,
@@ -27,6 +28,12 @@ function FormPreview() {
     e.preventDefault();
   };
 
+  const handleMenuToogle = () => {
+    dispatch(setCurrentTab(1));
+  };
+  const selectInput = (id: string) => {
+    setSelectedFieldId(id);
+  };
   return (
     <div
       className="w-full h-full min-h-[300px] border rounded p-4"
@@ -37,9 +44,16 @@ function FormPreview() {
       {fields.length === 0 ? (
         <p className="text-gray-400">Drag fields here</p>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2" onClick={handleMenuToogle}>
           {fields.map((field: FormField) => (
-            <div key={field.id} className="border p-3 rounded bg-gray-50">
+            <div
+              key={field.id}
+              className="border p-3 rounded bg-gray-50 cursor-pointer"
+              onClick={() => {
+                dispatch(setSelectedFieldId(field.id));
+                dispatch(setCurrentTab(1));
+              }}
+            >
               <label>{field.label}</label>
               {field.type === "text" && (
                 <input type="text" className="w-full" />

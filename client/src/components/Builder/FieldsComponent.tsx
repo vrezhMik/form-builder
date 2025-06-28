@@ -14,7 +14,7 @@ export default function FieldsComponent() {
   };
 
   return (
-    <div className="p-10 flex flex-wrap gap-x-5 gap-y-5">
+    <div className=" flex flex-wrap gap-x-5 gap-y-5">
       {inputs.map((input, index) => (
         <div
           key={index}

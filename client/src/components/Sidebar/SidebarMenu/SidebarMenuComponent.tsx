@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { setCurrentTab } from "../../../store/sidebarSlice";
 
 function SidebarMenuComponent() {
-  const [currentMenu, setCurrentMenu] = useState<number>(0);
+  const dispatch = useDispatch();
+  const currentTab = useSelector(
+    (state: RootState) => state.sidebar.currentTab
+  );
   const menu_inputs = [
     { label: "Add fields" },
     { label: "Input Options" },
     { label: "Form Settings" },
   ];
+  const handleTabClick = (index: number) => {
+    dispatch(setCurrentTab(index));
+  };
 
   return (
     <div className="w-full">
@@ -15,9 +23,9 @@ function SidebarMenuComponent() {
           <button
             key={index}
             className={`h-20 w-4/12 ${
-              index === currentMenu ? "bg-blue-100" : "bg-blue-50"
+              index === currentTab ? "bg-blue-100" : "bg-blue-50"
             }`}
-            onClick={() => setCurrentMenu(index)}
+            onClick={() => handleTabClick(index)}
           >
             {input.label}
           </button>

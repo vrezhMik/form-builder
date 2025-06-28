@@ -5,6 +5,7 @@ export interface FormField {
   type: FieldType;
   label: string;
   settings: Record<string, any>;
+  required: boolean;
 }
 
 export function createFormField(type: FieldType): FormField {
@@ -13,5 +14,6 @@ export function createFormField(type: FieldType): FormField {
     type,
     label: type.charAt(0).toUpperCase() + type.slice(1),
     settings: {},
+    required: false,
   };
 }

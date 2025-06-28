@@ -1,16 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  createFormField,
-  FormField,
-  FieldType,
-} from "../form-builder/FormField";
+import { FormField } from "../form-builder/FormField";
 
 interface FormBuilderState {
   fields: FormField[];
+  selectedFieldId: string | null;
 }
 
 const initialState: FormBuilderState = {
   fields: [],
+  selectedFieldId: null,
 };
 
 const formBuilderSlice = createSlice({
@@ -19,6 +17,9 @@ const formBuilderSlice = createSlice({
   reducers: {
     addField: (state: FormBuilderState, action: PayloadAction<FormField>) => {
       state.fields.push(action.payload);
+    },
+    setSelectedFieldId: (state, action: PayloadAction<string | null>) => {
+      state.selectedFieldId = action.payload;
     },
     updateField: (
       state: FormBuilderState,
@@ -39,5 +40,6 @@ const formBuilderSlice = createSlice({
   },
 });
 
-export const { addField, updateField, removeField } = formBuilderSlice.actions;
+export const { addField, updateField, removeField, setSelectedFieldId } =
+  formBuilderSlice.actions;
 export default formBuilderSlice.reducer;
