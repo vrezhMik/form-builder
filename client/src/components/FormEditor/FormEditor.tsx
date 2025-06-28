@@ -48,7 +48,6 @@ function FormEditor() {
       const data = await response.json();
       setSaveStatus("success");
 
-      // If it's a new form, navigate to URL with the new ID
       if (!isEditing && data._id) {
         navigate(`/formBuilder?id=${data._id}`);
       }

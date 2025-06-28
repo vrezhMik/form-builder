@@ -6,7 +6,7 @@ import { setCurrentTab } from "../../store/sidebarSlice";
 import { setSelectedFieldId, removeField } from "../../store/formBuilderSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
+import CheckboxGroup from "./CheckboxGroup";
 interface Props {
   field: FormField;
   error: string;
@@ -110,33 +110,14 @@ const FieldPreviewSortable: React.FC<Props> = ({
         )}
 
         {field.type === "checkbox" && (
-          <div
-            className={`${
-              field.settings.checkboxTemplate === "row"
-                ? "flex gap-4 items-center"
-                : "block space-y-1"
-            }`}
-          >
-            {(field.settings.options || []).map((opt: string, i: number) => (
-              <label key={i} className="flex items-center gap-2 align-center">
-                <input
-                  type="checkbox"
-                  checked={Array.isArray(value) && value.includes(opt)}
-                  onChange={(e) => {
-                    const newValue = Array.isArray(value) ? [...value] : [];
-                    if (e.target.checked) {
-                      if (!newValue.includes(opt)) newValue.push(opt);
-                    } else {
-                      const index = newValue.indexOf(opt);
-                      if (index !== -1) newValue.splice(index, 1);
-                    }
-                    onChange(newValue);
-                  }}
-                />
-                <span>{opt}</span>
-              </label>
-            ))}
-          </div>
+          <CheckboxGroup
+            options={field.settings.options || []}
+            value={Array.isArray(value) ? value : []}
+            onChange={onChange}
+            layout={
+              field.settings.checkboxTemplate === "row" ? "row" : "column"
+            }
+          />
         )}
 
         {field.type === "select" && (

@@ -1,4 +1,4 @@
-import type { FormField } from "@shared/interfaces";
+import type { FormField } from "@shared/inrerfaces";
 
 export function groupFieldsIntoRows(fields: FormField[]): FormField[][] {
   const rows: FormField[][] = [];

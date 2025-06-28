@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { FormField } from "@shared/interfaces";
+import type { FormField } from "@shared/inrerfaces";
 import { arrayMove } from "@dnd-kit/sortable";
 
 interface FormBuilderState {

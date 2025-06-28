@@ -1,4 +1,4 @@
-import type { FormField, FieldType } from "@shared/interfaces";
+import type { FormField, FieldType } from "@shared/inrerfaces";
 
 export function createFormField(type: FieldType): FormField {
   return {
